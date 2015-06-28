@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{4BA1F66E-B9FE-4DCE-846F-FA7C273030E4}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TeamAndatHypori</RootNamespace>
+    <AssemblyName>TeamAndatHypori</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Engine\Engine.cs" />
+    <Compile Include="Interfaces\Characters\ICharacter.cs" />
+    <Compile Include="Interfaces\Characters\IEnemy.cs" />
+    <Compile Include="Interfaces\Characters\IMage.cs" />
+    <Compile Include="Interfaces\Engine\IEngine.cs" />
+    <Compile Include="Interfaces\Items\IConsumable.cs" />
+    <Compile Include="Interfaces\Items\IItem.cs" />
+    <Compile Include="Interfaces\Projectiles\IProjectile.cs" />
+    <Compile Include="Objects\Characters\Character.cs" />
+    <Compile Include="Objects\Characters\NPCs\Enemy.cs" />
+    <Compile Include="Objects\Characters\NPCs\Goblin.cs" />
+    <Compile Include="Objects\Characters\NPCs\Orc.cs" />
+    <Compile Include="Objects\Characters\PlayableCharacters\Archer.cs" />
+    <Compile Include="Objects\Characters\PlayableCharacters\Hero.cs" />
+    <Compile Include="Objects\Characters\PlayableCharacters\Mage.cs" />
+    <Compile Include="Objects\Characters\PlayableCharacters\Warrior.cs" />
+    <Compile Include="Objects\GameObject.cs" />
+    <Compile Include="Objects\Items\Armor.cs" />
+    <Compile Include="Objects\Items\Consumables\Consumable.cs" />
+    <Compile Include="Objects\Items\Consumables\DamagePotion.cs" />
+    <Compile Include="Objects\Items\Consumables\DefensePotion.cs" />
+    <Compile Include="Objects\Items\Consumables\HealingPotion.cs" />
+    <Compile Include="Objects\Items\Helmet.cs" />
+    <Compile Include="Objects\Items\Item.cs" />
+    <Compile Include="Objects\Items\Sword.cs" />
+    <Compile Include="Objects\Projectiles\Arrow.cs" />
+    <Compile Include="Objects\Projectiles\Fireball.cs" />
+    <Compile Include="Objects\Projectiles\Projectile.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Config\" />
+    <Folder Include="Engine\Factories\" />
+    <Folder Include="Enums\" />
+    <Folder Include="Exceptions\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

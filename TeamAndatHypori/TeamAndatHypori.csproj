@@ -47,6 +47,7 @@
     <Compile Include="Interfaces\Characters\IMage.cs" />
     <Compile Include="Interfaces\Engine\IEngine.cs" />
     <Compile Include="Interfaces\Items\IConsumable.cs" />
+    <Compile Include="Interfaces\Items\IEquipable.cs" />
     <Compile Include="Interfaces\Items\IItem.cs" />
     <Compile Include="Interfaces\Projectiles\IProjectile.cs" />
     <Compile Include="Objects\Characters\Character.cs" />
@@ -58,14 +59,15 @@
     <Compile Include="Objects\Characters\PlayableCharacters\Mage.cs" />
     <Compile Include="Objects\Characters\PlayableCharacters\Warrior.cs" />
     <Compile Include="Objects\GameObject.cs" />
-    <Compile Include="Objects\Items\Armor.cs" />
+    <Compile Include="Objects\Items\Equipment\Armor.cs" />
     <Compile Include="Objects\Items\Consumables\Consumable.cs" />
     <Compile Include="Objects\Items\Consumables\DamagePotion.cs" />
     <Compile Include="Objects\Items\Consumables\DefensePotion.cs" />
     <Compile Include="Objects\Items\Consumables\HealingPotion.cs" />
-    <Compile Include="Objects\Items\Helmet.cs" />
+    <Compile Include="Objects\Items\Equipment\Equipment.cs" />
+    <Compile Include="Objects\Items\Equipment\Helmet.cs" />
     <Compile Include="Objects\Items\Item.cs" />
-    <Compile Include="Objects\Items\Sword.cs" />
+    <Compile Include="Objects\Items\Equipment\Sword.cs" />
     <Compile Include="Objects\Projectiles\Arrow.cs" />
     <Compile Include="Objects\Projectiles\Fireball.cs" />
     <Compile Include="Objects\Projectiles\Projectile.cs" />

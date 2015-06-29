@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TeamAndatHypori.Objects.Items
+namespace TeamAndatHypori.Objects.Characters.NPCs.Enemies
 {
-    class Consumable
+    class Orc
     {
     }
 }

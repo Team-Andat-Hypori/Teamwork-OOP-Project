@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TeamAndatHypori.Objects.Characters.NPCs
+namespace TeamAndatHypori.Objects.Characters.PlayableCharacters
 {
-    class Orc
+    class Wizard
     {
     }
 }

@@ -32,6 +32,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MonoGame.Framework">
+      <HintPath>..\packages\MonoGame.Framework.WindowsGL.3.4.0.459\lib\net40\MonoGame.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTK">
+      <HintPath>..\packages\MonoGame.Framework.WindowsGL.3.4.0.459\lib\net40\OpenTK.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -41,7 +47,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Config\Config.cs" />
     <Compile Include="Engine\Engine.cs" />
+    <Compile Include="Enums\Direction.cs" />
+    <Compile Include="Enums\EquipmentSlot.cs" />
+    <Compile Include="Enums\Name.cs" />
     <Compile Include="Interfaces\Characters\ICharacter.cs" />
     <Compile Include="Interfaces\Characters\IEnemy.cs" />
     <Compile Include="Interfaces\Characters\IMage.cs" />
@@ -51,16 +61,15 @@
     <Compile Include="Interfaces\Items\IItem.cs" />
     <Compile Include="Interfaces\Projectiles\IProjectile.cs" />
     <Compile Include="Objects\Characters\Character.cs" />
-    <Compile Include="Objects\Characters\NPCs\Enemy.cs" />
-    <Compile Include="Objects\Characters\NPCs\Goblin.cs" />
-    <Compile Include="Objects\Characters\NPCs\Orc.cs" />
-    <Compile Include="Objects\Characters\PlayableCharacters\Archer.cs" />
-    <Compile Include="Objects\Characters\PlayableCharacters\Hero.cs" />
-    <Compile Include="Objects\Characters\PlayableCharacters\Mage.cs" />
+    <Compile Include="Objects\Characters\NPCs\Enemies\Enemy.cs" />
+    <Compile Include="Objects\Characters\NPCs\Enemies\Goblin.cs" />
+    <Compile Include="Objects\Characters\NPCs\Enemies\Orc.cs" />
+    <Compile Include="Objects\Characters\PlayableCharacters\Rogue.cs" />
+    <Compile Include="Objects\Characters\PlayableCharacters\Player.cs" />
+    <Compile Include="Objects\Characters\PlayableCharacters\Wizard.cs" />
     <Compile Include="Objects\Characters\PlayableCharacters\Warrior.cs" />
     <Compile Include="Objects\GameObject.cs" />
-    <Compile Include="Objects\Items\Equipment\Armor.cs" />
-    <Compile Include="Objects\Items\Consumables\Consumable.cs" />
+    <Compile Include="Objects\Items\Consumables\Potion.cs" />
     <Compile Include="Objects\Items\Consumables\DamagePotion.cs" />
     <Compile Include="Objects\Items\Consumables\DefensePotion.cs" />
     <Compile Include="Objects\Items\Consumables\HealingPotion.cs" />
@@ -76,11 +85,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Config\" />
     <Folder Include="Engine\Factories\" />
-    <Folder Include="Enums\" />
     <Folder Include="Exceptions\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

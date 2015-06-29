@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace TeamAndatHypori.Engine
 {
-    class Engine
+    using Microsoft.Xna.Framework.Input;
+
+    public class Engine
     {
+        private Keyboard 
     }
 }

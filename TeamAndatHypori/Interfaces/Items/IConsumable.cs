@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TeamAndatHypori.Interfaces.Items
 {
-    interface IConsumable : IItem
+    public interface IConsumable : IItem
     {
     }
 }

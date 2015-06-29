@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TeamAndatHypori.Interfaces.Items
+﻿namespace TeamAndatHypori.Interfaces.Items
 {
-    interface IItem
+    public interface IItem
     {
+        int SpeedPointsBuff { get; set; }
+
+        int DefensePointsBuff { get; set; }
+
+        int AttackPointsBuff { get; set; }
+
+        int HealthPointsBuff { get; set; }
     }
 }

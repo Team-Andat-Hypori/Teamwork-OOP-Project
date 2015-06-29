@@ -1,1 +1,3 @@
 E:\Soft Uni\Teamwork\TeamAndat-HyporiProject\TeamAndatHypori\bin\Debug\TeamAndatHypori.exe.config
+C:\Soft Uni\TeamworkOOP\TeamAndatHypori\bin\Debug\TeamAndatHypori.exe.config
+E:\Soft Uni\Teamwork\laptop\TeamAndatHypori\bin\Debug\TeamAndatHypori.exe.config

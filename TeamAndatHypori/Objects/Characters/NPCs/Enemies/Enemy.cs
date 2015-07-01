@@ -6,13 +6,21 @@
     {
         public int ExperienceReward { get; protected set; }
 
-        public void Attack(Player player)
+        public virtual void Attack(Player player)
         {
             if (player.IsAlive)
             {
                 //add case for warrior
-                player.Health -= this.AttackDamage;
+                player.RespondToAttack(this.AttackDamage);
             }
         }
+
+        public override void RespondToAttack(int damage)
+        {
+            base.RespondToAttack(damage);
+
+        }
     }
+
+    
 }

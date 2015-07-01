@@ -15,14 +15,9 @@
 
         public int Height { get; set; }
 
-        public virtual void Initialize(Texture2D texture, Vector2 position)
+        public virtual void Update()
         {
-            this.Image = texture;
-            this.Position = position;
+            
         }
-
-        public abstract void Update();
-
-        public abstract void Draw(SpriteBatch spriteBatch);
     }
 }

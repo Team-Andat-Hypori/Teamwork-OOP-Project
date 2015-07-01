@@ -23,6 +23,12 @@
 
         public Direction Direction { get; set; }
 
+        public State State { get; set; }
+
+        public int AnimationFrame { get; set; }
+
+        public int AnimationDelay { get; set; }
+
         public bool Intersects(BoundingBox box)
         {
             return this.Bounds.Intersects(box);
@@ -38,11 +44,9 @@
             }
         }
 
-        public override void Draw(SpriteBatch spriteBatch)
+        public virtual void RespondToAttack(int damage)
         {
-            spriteBatch.Draw(this.Image, this.Position, Color.White);
+            this.Health -= damage - this.Defense;
         }
-
-        protected abstract void Move();
     }
 }

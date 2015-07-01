@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TeamAndatHypori.Objects.Characters.NPCs.Enemies
 {
-    class Orc
+    class Orc : Enemy
     {
     }
 }

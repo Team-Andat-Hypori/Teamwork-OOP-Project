@@ -31,6 +31,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
       <HintPath>..\packages\MonoGame.Framework.WindowsGL.3.4.0.459\lib\net40\MonoGame.Framework.dll</HintPath>
@@ -47,11 +50,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Config\Config.cs" />
-    <Compile Include="Engine\Engine.cs" />
+    <Compile Include="Configuration\Assets.cs" />
+    <Compile Include="Configuration\Config.cs" />
+    <Compile Include="CoreLogic\Engine.cs" />
     <Compile Include="Enums\Direction.cs" />
     <Compile Include="Enums\EquipmentSlot.cs" />
+    <Compile Include="Enums\ItemType.cs" />
     <Compile Include="Enums\Name.cs" />
+    <Compile Include="Enums\State.cs" />
+    <Compile Include="GUI\Gui.cs" />
     <Compile Include="Interfaces\Characters\ICharacter.cs" />
     <Compile Include="Interfaces\Characters\IEnemy.cs" />
     <Compile Include="Interfaces\Characters\IMage.cs" />
@@ -62,8 +69,9 @@
     <Compile Include="Interfaces\Projectiles\IProjectile.cs" />
     <Compile Include="Objects\Characters\Character.cs" />
     <Compile Include="Objects\Characters\NPCs\Enemies\Enemy.cs" />
-    <Compile Include="Objects\Characters\NPCs\Enemies\Goblin.cs" />
+    <Compile Include="Objects\Characters\NPCs\Enemies\OrcArcher.cs" />
     <Compile Include="Objects\Characters\NPCs\Enemies\Orc.cs" />
+    <Compile Include="Objects\Characters\NPCs\Enemies\OrcLord.cs" />
     <Compile Include="Objects\Characters\PlayableCharacters\Rogue.cs" />
     <Compile Include="Objects\Characters\PlayableCharacters\Player.cs" />
     <Compile Include="Objects\Characters\PlayableCharacters\Wizard.cs" />
@@ -73,10 +81,16 @@
     <Compile Include="Objects\Items\Consumables\DamagePotion.cs" />
     <Compile Include="Objects\Items\Consumables\DefensePotion.cs" />
     <Compile Include="Objects\Items\Consumables\HealingPotion.cs" />
+    <Compile Include="Objects\Items\Equipment\Armor.cs" />
+    <Compile Include="Objects\Items\Equipment\Boots.cs" />
+    <Compile Include="Objects\Items\Equipment\Daggers.cs" />
     <Compile Include="Objects\Items\Equipment\Equipment.cs" />
-    <Compile Include="Objects\Items\Equipment\Helmet.cs" />
-    <Compile Include="Objects\Items\Item.cs" />
+    <Compile Include="Objects\Items\Equipment\Gloves.cs" />
+    <Compile Include="Objects\Items\Equipment\Helm.cs" />
+    <Compile Include="Objects\Items\Equipment\Orb.cs" />
     <Compile Include="Objects\Items\Equipment\Sword.cs" />
+    <Compile Include="Objects\Items\Item.cs" />
+    <Compile Include="Objects\Map.cs" />
     <Compile Include="Objects\Projectiles\Arrow.cs" />
     <Compile Include="Objects\Projectiles\Fireball.cs" />
     <Compile Include="Objects\Projectiles\Projectile.cs" />
@@ -88,7 +102,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Engine\Factories\" />
+    <Folder Include="CoreLogic\Factories\" />
     <Folder Include="Exceptions\" />
   </ItemGroup>
   <ItemGroup>

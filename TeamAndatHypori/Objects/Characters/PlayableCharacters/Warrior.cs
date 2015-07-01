@@ -6,7 +6,21 @@ using System.Threading.Tasks;
 
 namespace TeamAndatHypori.Objects.Characters.PlayableCharacters
 {
-    class Warrior
+    class Warrior : Player
     {
+        private static Random Rand;
+
+        public Warrior()
+        {
+              Rand = new Random();
+        }
+        public override void RespondToAttack(int damage)
+        {
+            int blockRoll = Rand.Next(0, 100);
+            if (blockRoll < 50)
+            {
+                this.Health -= damage - this.Defense;
+            }
+        }
     }
 }

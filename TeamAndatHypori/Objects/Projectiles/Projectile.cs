@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TeamAndatHypori.Objects.Projectiles
 {
-    class Projectile
+    public abstract class Projectile : GameObject
     {
     }
 }

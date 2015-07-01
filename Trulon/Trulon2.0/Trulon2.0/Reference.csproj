@@ -57,8 +57,8 @@
     <NoWin32Manifest>true</NoWin32Manifest>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Config\Assets.cs" />
-    <Compile Include="Config\Config.cs" />
+    <Compile Include="Configuration\Assets.cs" />
+    <Compile Include="Configuration\Config.cs" />
     <Compile Include="CoreLogics\ItemGenerator.cs" />
     <Compile Include="CoreLogics\Engine.cs" />
     <Compile Include="CoreLogics\MapManager.cs" />
@@ -106,7 +106,10 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
-      <HintPath>$(MSBuildExtensionsPath)\..\MonoGame\v3.0\Assemblies\Windows\MonoGame.Framework.dll</HintPath>
+      <HintPath>..\..\..\packages\MonoGame.Framework.WindowsGL.3.4.0.459\lib\net40\MonoGame.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTK">
+      <HintPath>..\..\..\packages\MonoGame.Framework.WindowsGL.3.4.0.459\lib\net40\OpenTK.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Web" />
@@ -477,6 +480,7 @@
     <Folder Include="Resources\Sounds\" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
     <None Include="TrulonClassDiagram.cd" />
     <None Include="Resources\font.xnb">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

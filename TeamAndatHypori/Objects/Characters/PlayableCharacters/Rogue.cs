@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace TeamAndatHypori.Objects.Characters.PlayableCharacters
 {
-    class Rogue
+    class Rogue : Player
     {
+        public override void RespondToAttack(int damage)
+        {
+            this.Health -= damage - this.Defense;
+        }
     }
 }

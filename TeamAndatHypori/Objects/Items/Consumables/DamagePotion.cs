@@ -3,10 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace TeamAndatHypori.Objects.Items.Consumables
 {
-    class DamagePotion
+    class DamagePotion : Potion
     {
+        public override void Update()
+        {
+           
+        }
+ 
     }
 }

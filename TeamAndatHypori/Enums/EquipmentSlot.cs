@@ -2,10 +2,10 @@
 {
     public enum EquipmentSlot
     {
-        Head,
+        Hands,
         Body,
         Feet,
-        Arms,
-        Hands
+        Head,             
+        Arms      
     }
 }

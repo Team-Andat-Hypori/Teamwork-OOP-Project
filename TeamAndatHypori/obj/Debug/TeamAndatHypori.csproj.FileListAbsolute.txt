@@ -1,3 +1,11 @@
 E:\Soft Uni\Teamwork\TeamAndat-HyporiProject\TeamAndatHypori\bin\Debug\TeamAndatHypori.exe.config
 C:\Soft Uni\TeamworkOOP\TeamAndatHypori\bin\Debug\TeamAndatHypori.exe.config
 E:\Soft Uni\Teamwork\laptop\TeamAndatHypori\bin\Debug\TeamAndatHypori.exe.config
+E:\Soft Uni\Teamwork\TeamAndat-HyporiProject\TeamAndatHypori\obj\Debug\TeamAndatHypori.csprojResolveAssemblyReference.cache
+E:\Soft Uni\Teamwork\TeamAndat-HyporiProject\TeamAndatHypori\bin\Debug\TeamAndatHypori.exe
+E:\Soft Uni\Teamwork\TeamAndat-HyporiProject\TeamAndatHypori\bin\Debug\TeamAndatHypori.pdb
+E:\Soft Uni\Teamwork\TeamAndat-HyporiProject\TeamAndatHypori\bin\Debug\MonoGame.Framework.dll
+E:\Soft Uni\Teamwork\TeamAndat-HyporiProject\TeamAndatHypori\bin\Debug\OpenTK.dll
+E:\Soft Uni\Teamwork\TeamAndat-HyporiProject\TeamAndatHypori\bin\Debug\MonoGame.Framework.xml
+E:\Soft Uni\Teamwork\TeamAndat-HyporiProject\TeamAndatHypori\obj\Debug\TeamAndatHypori.exe
+E:\Soft Uni\Teamwork\TeamAndat-HyporiProject\TeamAndatHypori\obj\Debug\TeamAndatHypori.pdb

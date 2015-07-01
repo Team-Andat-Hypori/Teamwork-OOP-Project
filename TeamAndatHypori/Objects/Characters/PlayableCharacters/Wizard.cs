@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace TeamAndatHypori.Objects.Characters.PlayableCharacters
 {
-    class Wizard
+    class Wizard : Player
     {
+        public override void RespondToAttack(int damage)
+        {
+            this.Health -= damage - this.Defense;
+        }
     }
 }

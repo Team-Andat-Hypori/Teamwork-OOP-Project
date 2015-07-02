@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mime;
+using System.Runtime.Remoting.Channels;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
@@ -31,6 +33,8 @@ namespace TeamAndatHypori.CoreLogic
         public readonly Item[] AllPotions = new Item[3];
 
         private static readonly Random Rand = new Random();
+        private GameState state;
+        private int wave;
         private GraphicsDeviceManager graphics;
         private Gui gui;
         private Map map;
@@ -45,6 +49,7 @@ namespace TeamAndatHypori.CoreLogic
         private SoundEffect PickRogue;
         private SoundEffect PickWizard;
         private SoundEffect OrcHurt;
+        private SoundEffect GameOver;
         #endregion
 
         #region Textures
@@ -55,6 +60,28 @@ namespace TeamAndatHypori.CoreLogic
         public Texture2D[] PlayerLeftSpecial { get; private set; }
         public Texture2D[] PlayerRightSpecial { get; private set; }
         public Texture2D[] PlayerDefeat { get; private set; }
+
+        public Texture2D[] WarriorMoveRight { get; private set; }
+        public Texture2D[] WarriorMoveLeft { get; private set; }
+        public Texture2D[] WarriorRightAttack { get; private set; }
+        public Texture2D[] WarriorLeftAttack { get; private set; }
+        public Texture2D[] WarriorLeftSpecial { get; private set; }
+        public Texture2D[] WarriorRightSpecial { get; private set; }
+        public Texture2D[] WarriorDefeat { get; private set; }
+
+        public Texture2D[] RogueMoveRight { get; private set; }
+        public Texture2D[] RogueMoveLeft { get; private set; }
+        public Texture2D[] RogueRightAttack { get; private set; }
+        public Texture2D[] RogueLeftAttack { get; private set; }
+        public Texture2D[] RogueDefeat { get; private set; }
+
+        public Texture2D[] WizardMoveRight { get; private set; }
+        public Texture2D[] WizardMoveLeft { get; private set; }
+        public Texture2D[] WizardRightAttack { get; private set; }
+        public Texture2D[] WizardLeftAttack { get; private set; }
+        public Texture2D[] WizardLeftSpecial { get; private set; }
+        public Texture2D[] WizardRightSpecial { get; private set; }
+        public Texture2D[] WizardDefeat { get; private set; }
 
         public Texture2D[] OrcMoveRight { get; private set; }
         public Texture2D[] OrcMoveLeft { get; private set; }
@@ -90,6 +117,9 @@ namespace TeamAndatHypori.CoreLogic
         public Texture2D Orb { get; private set; }
 
         public Texture2D Map { get; private set; }
+        public Texture2D ChampionSelect { get; private set; }
+        public Texture2D Victory { get; private set; }
+        public Texture2D Defeat { get; private set; }
 
         public Texture2D ArrowLeft { get; private set; }
         public Texture2D ArrowRight { get; private set; }
@@ -106,7 +136,7 @@ namespace TeamAndatHypori.CoreLogic
         public Engine()
         {
             this.graphics = new GraphicsDeviceManager(this);
-
+            this.state = GameState.Pick;
             Content.RootDirectory = "Resources";
         }
 
@@ -132,7 +162,6 @@ namespace TeamAndatHypori.CoreLogic
             this.graphics.ApplyChanges();
             this.IsMouseVisible = false;
 
-            this.Player = new Wizard(0, 0);
             this.map = new Map();
 
             this.gui = new Gui(this);
@@ -155,8 +184,8 @@ namespace TeamAndatHypori.CoreLogic
             // Load Enemies
             this.Enemies = new List<Enemy>
             {
-                new OrcArcher(1000, 300),
-                new OrcArcher(1000, 400),
+                new Orc(1000, 300),
+                new Orc(1000, 400),
                 new OrcArcher(1000, 100),
                 new OrcArcher(1000, 500),
             };
@@ -192,27 +221,28 @@ namespace TeamAndatHypori.CoreLogic
             this.BossPrepare = Content.Load<SoundEffect>(Assets.BossPrepare);
             this.BossKill = Content.Load<SoundEffect>(Assets.BossKill);
             this.OrcHurt = Content.Load<SoundEffect>(Assets.OrcHurt);
+            this.GameOver = Content.Load<SoundEffect>(Assets.Defeat);
             #endregion
 
             // Load the visual resources
             #region TexturesLoad
-            if (this.Player is Warrior)
-            {
-                this.PlayerMoveRight = new[]
+
+            //Warrior
+            this.WarriorMoveRight = new[]
                 {
                     Content.Load<Texture2D>(Assets.WarriorImages[0]),
                     Content.Load<Texture2D>(Assets.WarriorImages[1]),
                     Content.Load<Texture2D>(Assets.WarriorImages[2]),
                 };
 
-                this.PlayerMoveLeft = new[]
+            this.WarriorMoveLeft = new[]
                 {
                     Content.Load<Texture2D>(Assets.WarriorImages[9]),
                     Content.Load<Texture2D>(Assets.WarriorImages[10]),
                     Content.Load<Texture2D>(Assets.WarriorImages[11]),
                 };
 
-                this.PlayerRightAttack = new[]
+            this.WarriorRightAttack = new[]
                 {
                     Content.Load<Texture2D>(Assets.WarriorImages[3]),
                     Content.Load<Texture2D>(Assets.WarriorImages[4]),
@@ -220,21 +250,21 @@ namespace TeamAndatHypori.CoreLogic
                     Content.Load<Texture2D>(Assets.WarriorImages[0]),
                 };
 
-                this.PlayerLeftAttack = new[]
+            this.WarriorLeftAttack = new[]
                 {
                     Content.Load<Texture2D>(Assets.WarriorImages[12]),
                     Content.Load<Texture2D>(Assets.WarriorImages[13]),
                     Content.Load<Texture2D>(Assets.WarriorImages[14]),
                     Content.Load<Texture2D>(Assets.WarriorImages[9]),
                 };
-                this.PlayerRightSpecial = new[]
+            this.WarriorRightSpecial = new[]
                 {
                     Content.Load<Texture2D>(Assets.WarriorImages[6]),
                     Content.Load<Texture2D>(Assets.WarriorImages[7]),
                     Content.Load<Texture2D>(Assets.WarriorImages[8]),
                     Content.Load<Texture2D>(Assets.WarriorImages[0]),
                 };
-                this.PlayerLeftSpecial = new[]
+            this.WarriorLeftSpecial = new[]
                 {
                     Content.Load<Texture2D>(Assets.WarriorImages[15]),
                     Content.Load<Texture2D>(Assets.WarriorImages[16]),
@@ -242,14 +272,13 @@ namespace TeamAndatHypori.CoreLogic
                     Content.Load<Texture2D>(Assets.WarriorImages[9]),
                 };
 
-                this.PlayerDefeat = new[]
+            this.WarriorDefeat = new[]
                 {
                    Content.Load<Texture2D>(Assets.WarriorImages[18]),
                 };
-            }
-            else if (this.Player is Rogue)
-            {
-                this.PlayerMoveRight = new[]
+
+            //Rogue
+            this.RogueMoveRight = new[]
                 {
                     Content.Load<Texture2D>(Assets.RogueImages[0]),
                     Content.Load<Texture2D>(Assets.RogueImages[1]),
@@ -257,7 +286,7 @@ namespace TeamAndatHypori.CoreLogic
                     Content.Load<Texture2D>(Assets.RogueImages[3]),
                 };
 
-                this.PlayerMoveLeft = new[]
+            this.RogueMoveLeft = new[]
                 {
                     Content.Load<Texture2D>(Assets.RogueImages[7]),
                     Content.Load<Texture2D>(Assets.RogueImages[8]),
@@ -265,7 +294,7 @@ namespace TeamAndatHypori.CoreLogic
                     Content.Load<Texture2D>(Assets.RogueImages[10]),
                 };
 
-                this.PlayerRightAttack = new[]
+            this.RogueRightAttack = new[]
                 {
                     Content.Load<Texture2D>(Assets.RogueImages[4]),
                     Content.Load<Texture2D>(Assets.RogueImages[5]),
@@ -273,22 +302,20 @@ namespace TeamAndatHypori.CoreLogic
                     Content.Load<Texture2D>(Assets.RogueImages[0]),
                 };
 
-                this.PlayerLeftAttack = new[]
+            this.RogueLeftAttack = new[]
                 {
                     Content.Load<Texture2D>(Assets.RogueImages[11]),
                     Content.Load<Texture2D>(Assets.RogueImages[12]),
                     Content.Load<Texture2D>(Assets.RogueImages[13]),
                     Content.Load<Texture2D>(Assets.RogueImages[7]),
                 };
-                this.PlayerDefeat = new[]
+            this.RogueDefeat = new[]
                 {
                    Content.Load<Texture2D>(Assets.RogueImages[14]),
                 };
-            }
 
-            else if (this.Player is Wizard)
-            {
-                this.PlayerMoveRight = new[]
+            //Wizard
+            this.WizardMoveRight = new[]
                 {
                     Content.Load<Texture2D>(Assets.WizardImages[0]),
                     Content.Load<Texture2D>(Assets.WizardImages[1]),
@@ -296,7 +323,7 @@ namespace TeamAndatHypori.CoreLogic
                     Content.Load<Texture2D>(Assets.WizardImages[3]),
                 };
 
-                this.PlayerMoveLeft = new[]
+            this.WizardMoveLeft = new[]
                 {
                     Content.Load<Texture2D>(Assets.WizardImages[10]),
                     Content.Load<Texture2D>(Assets.WizardImages[11]),
@@ -304,7 +331,7 @@ namespace TeamAndatHypori.CoreLogic
                     Content.Load<Texture2D>(Assets.WizardImages[13]),
                 };
 
-                this.PlayerRightAttack = new[]
+            this.WizardRightAttack = new[]
                 {
                     Content.Load<Texture2D>(Assets.WizardImages[4]),
                     Content.Load<Texture2D>(Assets.WizardImages[5]),
@@ -312,21 +339,21 @@ namespace TeamAndatHypori.CoreLogic
                     Content.Load<Texture2D>(Assets.WizardImages[0]),
                 };
 
-                this.PlayerLeftAttack = new[]
+            this.WizardLeftAttack = new[]
                 {
                     Content.Load<Texture2D>(Assets.WizardImages[14]),
                     Content.Load<Texture2D>(Assets.WizardImages[15]),
                     Content.Load<Texture2D>(Assets.WizardImages[16]),
                     Content.Load<Texture2D>(Assets.WizardImages[10]),
                 };
-                this.PlayerRightSpecial = new[]
+            this.WizardRightSpecial = new[]
                 {
                     Content.Load<Texture2D>(Assets.WizardImages[7]),
                     Content.Load<Texture2D>(Assets.WizardImages[8]),
                     Content.Load<Texture2D>(Assets.WizardImages[9]),
                     Content.Load<Texture2D>(Assets.WizardImages[0]),
                 };
-                this.PlayerLeftSpecial = new[]
+            this.WizardLeftSpecial = new[]
                 {
                     Content.Load<Texture2D>(Assets.WizardImages[17]),
                     Content.Load<Texture2D>(Assets.WizardImages[18]),
@@ -334,11 +361,11 @@ namespace TeamAndatHypori.CoreLogic
                     Content.Load<Texture2D>(Assets.WizardImages[10]),
                 };
 
-                this.PlayerDefeat = new[]
+            this.WizardDefeat = new[]
                 {
                    Content.Load<Texture2D>(Assets.WizardImages[20]),
                 };
-            }
+
 
             // Load enemy resources
 
@@ -504,6 +531,9 @@ namespace TeamAndatHypori.CoreLogic
 
             //Load Map
             this.Map = Content.Load<Texture2D>(Assets.Maps[0]);
+            this.ChampionSelect = Content.Load<Texture2D>(Assets.Maps[1]);
+            this.Victory = Content.Load<Texture2D>(Assets.Maps[2]);
+            this.Defeat = Content.Load<Texture2D>(Assets.Maps[3]);
 
             //Load Projectiles
             this.ArrowLeft = Content.Load<Texture2D>(Assets.ArrowImages[0]);
@@ -524,7 +554,6 @@ namespace TeamAndatHypori.CoreLogic
             #endregion
 
             this.map.LoadImage(this.Map);
-            this.Player.LoadImage(this.PlayerMoveRight[0]);
             foreach (var enemy in this.Enemies)
             {
                 if (enemy is Orc)
@@ -565,6 +594,7 @@ namespace TeamAndatHypori.CoreLogic
 
         protected override void Update(GameTime gameTime)
         {
+
             this.CurrentKeyboardState = Keyboard.GetState();
 
             // Exit check
@@ -573,86 +603,236 @@ namespace TeamAndatHypori.CoreLogic
                 this.UnloadContent();
             }
 
-            this.UpdatePlayerState();
-            this.UpdatePlayerDirection();
-            this.Move();
-            this.PlayerAttack();
-            this.Player.Update();
-
-            this.UpdateEnemiesState();
-            this.EnemiesMove();
-            this.EnemiesAttack();
-            this.UpdateEnemies();
-
-            this.FlyProjectiles();
-            this.CheckForProjectileHits();
-
-            this.UpdateExplosions();
-
-            if (this.Enemies.Count == 0)
+            if (this.state == GameState.Pick)
             {
-                // Implement next wave
-            }
-
-            // Use Item
-            for (int index = 0; index < Config.UseItemKeys.Length; index++)
-            {
-                if (this.CurrentKeyboardState.IsKeyDown(Config.UseItemKeys[index]))
+                if (CurrentKeyboardState.IsKeyDown(Keys.D1))
                 {
-                    this.Player.UseItem(index);
+                    this.Player = new Warrior(0, 0);
+                    this.PlayerLeftAttack = WarriorLeftAttack;
+                    this.PlayerRightAttack = WarriorRightAttack;
+                    this.PlayerMoveLeft = WarriorMoveLeft;
+                    this.PlayerMoveRight = WarriorMoveRight;
+                    this.PlayerRightSpecial = WarriorRightSpecial;
+                    this.PlayerLeftSpecial = WarriorLeftSpecial;
+                    this.PlayerDefeat = WarriorDefeat;
+                    this.Player.LoadImage(this.PlayerMoveRight[0]);
+                    this.PickWarrior.Play();
+                    this.state = GameState.Play;
+                    this.Player.OnDeath += (sender, args) =>
+                    {
+                        this.GameOver.Play();
+                        this.state = GameState.Defeat;
+                    };
                 }
-            }
-
-            // Discard item 
-            for (int index = 0; index < Config.DiscardItemKeys.Length; index++)
-            {
-                if (this.CurrentKeyboardState.IsKeyDown(Config.DiscardItemKeys[index]))
+                else if (CurrentKeyboardState.IsKeyDown(Keys.D2))
                 {
-                    this.Player.DiscardItem(index);
+                    this.Player = new Rogue(0, 0);
+                    this.PlayerLeftAttack = RogueLeftAttack;
+                    this.PlayerRightAttack = RogueRightAttack;
+                    this.PlayerMoveLeft = RogueMoveLeft;
+                    this.PlayerMoveRight = RogueMoveRight;
+                    this.PlayerDefeat = RogueDefeat;
+                    this.Player.LoadImage(this.PlayerMoveRight[0]);
+                    this.PickRogue.Play();
+                    this.state = GameState.Play;
+                    this.Player.OnDeath += (sender, args) =>
+                    {
+                        this.GameOver.Play();
+                        this.state = GameState.Defeat;
+                    };
                 }
-            }
-
-            // Unequip Item 
-            for (int index = 0; index < Config.UnequipItemKeys.Length; index++)
-            {
-                if (this.CurrentKeyboardState.IsKeyDown(Config.UnequipItemKeys[index]))
+                else if (CurrentKeyboardState.IsKeyDown(Keys.D3))
                 {
-                    this.Player.UnequipItem((EquipmentSlot)index);
+                    this.Player = new Wizard(0, 0);
+                    this.PlayerLeftAttack = WizardLeftAttack;
+                    this.PlayerRightAttack = WizardRightAttack;
+                    this.PlayerMoveLeft = WizardMoveLeft;
+                    this.PlayerMoveRight = WizardMoveRight;
+                    this.PlayerRightSpecial = WizardRightSpecial;
+                    this.PlayerLeftSpecial = WizardLeftSpecial;
+                    this.PlayerDefeat = WizardDefeat;
+                    this.Player.LoadImage(this.PlayerMoveRight[0]);
+                    this.PickWizard.Play();
+                    this.state = GameState.Play;
+                    this.Player.OnDeath += (sender, args) =>
+                    {
+                        this.GameOver.Play();
+                        this.state = GameState.Defeat;
+                    };
                 }
-            }
-            if (this.Player.State != State.Idle)
-            {
-                this.AnimatePlayer();
-            }
-            this.AnimateEnemies();
-            this.AnimateExplosions();
 
-            this.DeleteDeadObjects();
+            }
+            else if (this.state == GameState.Play)
+            {
+
+                this.UpdatePlayerState();
+                this.UpdatePlayerDirection();
+                this.Move();
+                this.PlayerAttack();
+                this.Player.Update();
+
+                this.UpdateEnemiesState();
+                this.EnemiesMove();
+                this.EnemiesAttack();
+                this.UpdateEnemies();
+
+                this.FlyProjectiles();
+                this.CheckForProjectileHits();
+
+                this.UpdateExplosions();
+
+                if (this.Enemies.Count == 0)
+                {
+                    if (this.wave == 0)
+                    {
+                        this.Enemies = new List<Enemy>()
+                        {
+                            new Orc(1000, 300),
+                            new Orc(1000, 350),
+                            new Orc(1000, 400),
+                            new OrcArcher(1000, 100),
+                            new OrcArcher(1000, 100),
+                            new OrcArcher(1000, 500),
+                        };
+                    }
+                    else if(this.wave == 1)
+                    {
+                        this.BossPrepare.Play();
+                        this.Enemies = new List<Enemy>()
+                        {
+                            new Orc(1000, 300),
+                            new Orc(1000, 350),
+                            new Orc(1000, 400),
+                            new OrcArcher(1000, 100),
+                            new OrcArcher(1000, 100),
+                            new OrcArcher(1000, 500),
+                            new OrcLord(1000,300)
+                        };
+                    }
+                    else if(this.wave == 2)
+                    {
+                        this.BossKill.Play();
+                        this.state = GameState.Win;
+                    }
+
+                    wave++;
+                    foreach (var enemy in this.Enemies)
+                    {
+                        if (enemy is Orc)
+                        {
+                            enemy.LoadImage(this.OrcMoveLeft[0]);
+                        }
+                        else if (enemy is OrcArcher)
+                        {
+                            enemy.LoadImage(this.OrcArcherMoveLeft[0]);
+                        }
+                        if (enemy is OrcLord)
+                        {
+                            enemy.LoadImage(this.OrcLordMoveLeft[0]);
+                        }
+                    }
+                }
+
+                // Use Item
+                for (int index = 0; index < Config.UseItemKeys.Length; index++)
+                {
+                    if (this.CurrentKeyboardState.IsKeyDown(Config.UseItemKeys[index]))
+                    {
+                        this.Player.UseItem(index);
+                    }
+                }
+
+                // Discard item 
+                for (int index = 0; index < Config.DiscardItemKeys.Length; index++)
+                {
+                    if (this.CurrentKeyboardState.IsKeyDown(Config.DiscardItemKeys[index]))
+                    {
+                        this.Player.DiscardItem(index);
+                    }
+                }
+
+                // Unequip Item 
+                for (int index = 0; index < Config.UnequipItemKeys.Length; index++)
+                {
+                    if (this.CurrentKeyboardState.IsKeyDown(Config.UnequipItemKeys[index]))
+                    {
+                        this.Player.UnequipItem((EquipmentSlot)index);
+                    }
+                }
+                if (this.Player.State != State.Idle)
+                {
+                    this.AnimatePlayer();
+                }
+                this.AnimateEnemies();
+                this.AnimateExplosions();
+
+                this.DeleteDeadObjects();
+            }
         }
 
         protected override void Draw(GameTime gameTime)
         {
-            this.GraphicsDevice.Clear(Color.Black);
-
-            this.SpriteBatch.Begin();
-
-            this.SpriteBatch.Draw(this.map.Image, new Vector2(0, 0), Color.White);
-            this.SpriteBatch.Draw(this.Player.Image, this.Player.Position, Color.White);
-            foreach (var enemy in this.Enemies)
+            if (this.state == GameState.Pick)
             {
-                this.SpriteBatch.Draw(enemy.Image, enemy.Position, Color.White);
-            }
-            foreach (var projectile in this.Projectiles)
-            {
-                this.SpriteBatch.Draw(projectile.Image, projectile.Position, Color.White);
-            }
-            foreach (var explosion in this.Explosions)
-            {
-                this.SpriteBatch.Draw(explosion.Image, explosion.Position, Color.White);
-            }
-            this.gui.Draw(this.SpriteBatch);
+                this.GraphicsDevice.Clear(Color.Black);
 
-            this.SpriteBatch.End();
+                this.SpriteBatch.Begin();
+
+                this.SpriteBatch.Draw(this.ChampionSelect, new Vector2(0, 0), Color.White);
+
+                this.SpriteBatch.End();
+            }
+            else if (this.state == GameState.Defeat)
+            {
+                this.GraphicsDevice.Clear(Color.Black);
+
+                this.SpriteBatch.Begin();
+
+                this.SpriteBatch.Draw(this.Defeat, new Vector2(0, 0), Color.White);
+
+                this.Player.Image = this.PlayerDefeat[0];
+
+                this.SpriteBatch.Draw(this.Player.Image, new Vector2(500, 300), Color.White);
+
+                this.SpriteBatch.End();
+            }
+            else if (this.state == GameState.Win)
+            {
+                this.GraphicsDevice.Clear(Color.Black);
+
+                this.SpriteBatch.Begin();
+
+                this.SpriteBatch.Draw(this.Victory, new Vector2(0, 0), Color.White);
+
+                this.SpriteBatch.Draw(this.Player.Image, this.Player.Position, Color.White);
+
+                this.SpriteBatch.End();
+            }
+            else
+            {
+                this.GraphicsDevice.Clear(Color.Black);
+
+                this.SpriteBatch.Begin();
+
+                this.SpriteBatch.Draw(this.map.Image, new Vector2(0, 0), Color.White);
+                this.SpriteBatch.Draw(this.Player.Image, this.Player.Position, Color.White);
+                foreach (var enemy in this.Enemies)
+                {
+                    this.SpriteBatch.Draw(enemy.Image, enemy.Position, Color.White);
+                }
+                foreach (var projectile in this.Projectiles)
+                {
+                    this.SpriteBatch.Draw(projectile.Image, projectile.Position, Color.White);
+                }
+                foreach (var explosion in this.Explosions)
+                {
+                    this.SpriteBatch.Draw(explosion.Image, explosion.Position, Color.White);
+                }
+                this.gui.Draw(this.SpriteBatch);
+
+                this.SpriteBatch.End();
+            }
+
         }
 
         private void DeleteDeadObjects()
@@ -745,7 +925,16 @@ namespace TeamAndatHypori.CoreLogic
                     {
                         if (projectile is Fireball)
                         {
-                            var explosion = new Explosion((int)projectile.Position.X + projectile.Width / 2, (int)projectile.Position.Y - projectile.Height, projectile.Damage);
+                            Explosion explosion;
+                            if (projectile.Direction == Direction.Right)
+                            {
+                                explosion = new Explosion((int)projectile.Position.X + projectile.Width, (int)projectile.Position.Y - projectile.Height, projectile.Damage);
+                            }
+                            else
+                            {
+                                explosion = new Explosion((int)projectile.Position.X - projectile.Width , (int)projectile.Position.Y - projectile.Height, projectile.Damage);
+                            }
+                            
                             projectile.IsAlive = false;
                             this.Explosions.Add(explosion);
                             this.LoadExplosionImage(explosion);
@@ -753,6 +942,7 @@ namespace TeamAndatHypori.CoreLogic
                         else if (enemy.Intersects(projectile.Bounds) && projectile is Arrow == false)
                         {
                             enemy.RespondToAttack(projectile.Damage);
+                            this.OrcHurt.Play();
                             projectile.IsAlive = false;
                         }
                     }
@@ -779,6 +969,7 @@ namespace TeamAndatHypori.CoreLogic
                         if (enemy.Intersects(explosion.Bounds))
                         {
                             enemy.RespondToAttack(explosion.Damage);
+                            this.OrcHurt.Play();
                         }
                     }
                 }
@@ -795,6 +986,10 @@ namespace TeamAndatHypori.CoreLogic
                     if (enemiesInRange.Count > 0)
                     {
                         (this.Player as Warrior).SpecialAttack(enemiesInRange);
+                        foreach (var enemy in enemiesInRange)
+                        {
+                            this.OrcHurt.Play();
+                        }
                     }
                 }
                 else if (this.Player is Wizard)
@@ -812,6 +1007,7 @@ namespace TeamAndatHypori.CoreLogic
                     if (enemy != null)
                     {
                         this.Player.Attack(enemy);
+                        this.OrcHurt.Play();
                     }
                 }
                 else if (this.Player is Rogue)
@@ -1135,7 +1331,7 @@ namespace TeamAndatHypori.CoreLogic
                             }
                             break;
                     }
-                    this.Player.AnimationDelay = 40;
+                    this.Player.AnimationDelay = 30;
                 }
                 else if (this.Player.State == State.Attacking)
                 {
@@ -1198,8 +1394,7 @@ namespace TeamAndatHypori.CoreLogic
                 {
                     this.Player.State = State.Special;
                     this.Player.AnimationFrame = 0;
-                    this.Player.AnimationDelay = 40;
-                    this.Kills[Rand.Next(0, this.Kills.Length)].Play();
+                    this.Player.AnimationDelay = 30;
                 }
                 else if (this.CurrentKeyboardState.IsKeyDown(Keys.Space))
                 {
@@ -1273,18 +1468,19 @@ namespace TeamAndatHypori.CoreLogic
         {
             foreach (var enemy in this.Enemies)
             {
-                
+
                 if (enemy.State == State.Idle)
                 {
                     if (enemy.Health <= 0)
                     {
                         enemy.State = State.Dying;
                         enemy.AnimationFrame = 0;
+                        this.Kills[Rand.Next(0, this.Kills.Length)].Play();
                         continue;
                     }
                     if (this.Player.Intersects(enemy.AttackBounds))
                     {
-                        int chanceToAttack = Rand.Next(0, 10);
+                        int chanceToAttack = Rand.Next(0, 7);
                         if (chanceToAttack == 0)
                         {
                             enemy.Direction = this.Player.Position.X <= enemy.Position.X ? Direction.Left : Direction.Right;
@@ -1293,10 +1489,9 @@ namespace TeamAndatHypori.CoreLogic
                         }
                     }
                     int chance = Rand.Next(0, 100);
-                    if (chance < 50)
+                    if (chance < 70)
                     {
                         enemy.State = State.Idle;
-                        continue;
                     }
                     else
                     {
@@ -1342,11 +1537,20 @@ namespace TeamAndatHypori.CoreLogic
 
         private Item LootEnemy(ItemType type)
         {
-            int chance = Rand.Next(0,1);
+            int chance = Rand.Next(0, 1);
             if (chance == 0)
             {
+                this.AllPotions[0] = new HealingPotion();
+                this.AllPotions[1] = new DamagePotion();
+                this.AllPotions[2] = new DefensePotion();
+
+                this.AllPotions[0].LoadImage(this.HealthPotion);
+                this.AllPotions[1].LoadImage(this.DamagePotion);
+                this.AllPotions[2].LoadImage(this.DefensePotion);
+
                 return type == ItemType.Potion ? AllPotions[Rand.Next(0, this.AllPotions.Length)] : AllEquipments[Rand.Next(0, this.AllEquipments.Length)];
             }
+            
 
             return null;
         }

@@ -26,11 +26,15 @@
         public static readonly string BossPrepare = "Sounds/BossPrepare.wav";
         public static readonly string BossKill = "Sounds/BossKill.wav";
         public static readonly string OrcHurt = "Sounds/OrcHurt.wav";
+        public static readonly string Defeat = "Sounds/Defeat.wav";
 
         // Maps
         public static readonly string[] Maps =
         {
             "Images/Maps/Level.png",
+            "Images/Maps/ChampionSelect.png",
+            "Images/Maps/Victory.png",
+            "Images/Maps/Defeat.png"
         };
 
         // Warrior sprites

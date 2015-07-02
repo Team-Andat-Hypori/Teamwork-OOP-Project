@@ -1,4 +1,6 @@
-﻿namespace TeamAndatHypori.Objects.Characters
+﻿using TeamAndatHypori.Interfaces.Characters;
+
+namespace TeamAndatHypori.Objects.Characters
 {
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
@@ -6,7 +8,7 @@
     using TeamAndatHypori.Configuration;
     using TeamAndatHypori.Enums;
 
-    public abstract class Character : GameObject
+    public abstract class Character : GameObject,ICharacter
     {
 
         protected Character()
@@ -41,7 +43,7 @@
             return this.Bounds.Intersects(box);
         }
 
-        public override void Update()
+        public virtual void Update()
         {
             this.Bounds = new BoundingBox(new Vector3(this.Position.X, this.Position.Y, 0), new Vector3(this.Position.X + this.Width, this.Position.Y + this.Height, 0));
 

@@ -8,7 +8,7 @@
     public abstract class GameObject
     {
 
-        public GameObject()
+        protected GameObject()
         {
             this.IsAlive = true;
         }
@@ -30,11 +30,6 @@
         public void LoadImage(Texture2D image)
         {
             this.Image = image;
-        }
-
-        public virtual void Update()
-        {
-            
         }
     }
 }

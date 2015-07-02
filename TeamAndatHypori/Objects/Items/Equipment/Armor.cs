@@ -8,7 +8,7 @@ using TeamAndatHypori.Enums;
 
 namespace TeamAndatHypori.Objects.Items.Equipment
 {
-    class Armor : Equipment
+    public class Armor : Equipment
     {
         #region Constants
         private const Name DefaultName = Name.Armor;
@@ -18,9 +18,9 @@ namespace TeamAndatHypori.Objects.Items.Equipment
         private const int DefaultHealthPointsBonus = 20;
         #endregion
 
-        public Armor()
+        public Armor() : base(DefaultSpeedPointsBonus,DefaultDefencePointsBonus,DefaultAttackPointsBonus,DefaultHealthPointsBonus)
         {
-            
+            this.Slot = EquipmentSlot.Body;
         }
     }
 }

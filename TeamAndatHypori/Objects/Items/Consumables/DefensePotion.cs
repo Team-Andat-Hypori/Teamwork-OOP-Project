@@ -9,11 +9,12 @@ namespace TeamAndatHypori.Objects.Items.Consumables
 {
     public class DefensePotion : Potion
     {
-        public override void Update()
-        {
-            
-        }
 
+        public DefensePotion()
+        {
+            this.Duration = 1500;
+            this.DefensePointsBuff = 5;
+        }
 
     }
 }

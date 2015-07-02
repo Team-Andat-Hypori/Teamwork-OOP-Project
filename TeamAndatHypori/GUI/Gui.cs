@@ -25,11 +25,11 @@ namespace TeamAndatHypori.GUI
 
         private readonly Dictionary<EquipmentSlot, Vector2> equipmentSlotPositions = new Dictionary<EquipmentSlot, Vector2>()
         {
-            { EquipmentSlot.Head, new Vector2(52, 561) },
-            { EquipmentSlot.Hands, new Vector2(108, 561) },
-            { EquipmentSlot.Arms, new Vector2(166, 561) },
-            { EquipmentSlot.Body, new Vector2(224, 561) },
-            { EquipmentSlot.Feet, new Vector2(278, 561) }
+            { EquipmentSlot.Hands, new Vector2(52, 561) },
+            { EquipmentSlot.Body, new Vector2(108, 561) },
+            { EquipmentSlot.Feet, new Vector2(166, 561) },
+            { EquipmentSlot.Head, new Vector2(224, 561) },
+            { EquipmentSlot.Arms, new Vector2(278, 561) }
         };
 
         //private float barCurrentWidth;

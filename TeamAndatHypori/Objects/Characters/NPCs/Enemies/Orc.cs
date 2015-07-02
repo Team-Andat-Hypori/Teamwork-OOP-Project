@@ -19,7 +19,7 @@ namespace TeamAndatHypori.Objects.Characters.NPCs.Enemies
         private const int DefaultAttackPoints = 30;
         private const int DefaultDefensePoints = 15;
         private const int DefaultSpeedPoints = 3;
-        private const int DefaultHealthPoints = 100;
+        private const int DefaultHealthPoints = 200;
         private const int DefaultAttackRadius = 40;
         private const int DefaultLevel = 2;
         private const int DefaultExperienceReward = 80;

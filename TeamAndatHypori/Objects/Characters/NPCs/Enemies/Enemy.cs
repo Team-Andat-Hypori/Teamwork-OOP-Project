@@ -1,12 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
 using TeamAndatHypori.Configuration;
+using TeamAndatHypori.Interfaces.Characters;
 
 namespace TeamAndatHypori.Objects.Characters.NPCs.Enemies
 {
     using TeamAndatHypori.Enums;
     using TeamAndatHypori.Objects.Characters.PlayableCharacters;
 
-    public abstract class Enemy : Character
+    public abstract class Enemy : Character,IEnemy
     {
         protected Enemy()
         {

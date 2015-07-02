@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace TeamAndatHypori.Interfaces.Characters
 {
-    interface ICharacter
+    public interface ICharacter
     {
+        void Update();
     }
 }

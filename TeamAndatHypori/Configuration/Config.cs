@@ -1,4 +1,6 @@
-﻿namespace TeamAndatHypori.Configuration
+﻿using TeamAndatHypori.Struct;
+
+namespace TeamAndatHypori.Configuration
 {
     using Microsoft.Xna.Framework.Input;
 

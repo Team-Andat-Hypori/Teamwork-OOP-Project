@@ -4,10 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TeamAndatHypori.Interfaces.Items
+namespace TeamAndatHypori.Enums
 {
-    public interface IConsumable : IItem
+    public enum GameState
     {
-        int Duration { get; set; }
+        Pick,
+        Play,
+        Win,
+        Defeat
     }
 }

@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reference", "Trulon\Trulon2.0\Trulon2.0\Reference.csproj", "{CB397BDE-6676-459A-88D0-EBDF7D1926AB}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeamAndatHypori", "TeamAndatHypori\TeamAndatHypori.csproj", "{4BA1F66E-B9FE-4DCE-846F-FA7C273030E4}"
 EndProject
 Global
@@ -17,16 +15,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{CB397BDE-6676-459A-88D0-EBDF7D1926AB}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{CB397BDE-6676-459A-88D0-EBDF7D1926AB}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{CB397BDE-6676-459A-88D0-EBDF7D1926AB}.Debug|Mixed Platforms.Build.0 = Debug|x86
-		{CB397BDE-6676-459A-88D0-EBDF7D1926AB}.Debug|x86.ActiveCfg = Debug|x86
-		{CB397BDE-6676-459A-88D0-EBDF7D1926AB}.Debug|x86.Build.0 = Debug|x86
-		{CB397BDE-6676-459A-88D0-EBDF7D1926AB}.Release|Any CPU.ActiveCfg = Release|x86
-		{CB397BDE-6676-459A-88D0-EBDF7D1926AB}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{CB397BDE-6676-459A-88D0-EBDF7D1926AB}.Release|Mixed Platforms.Build.0 = Release|x86
-		{CB397BDE-6676-459A-88D0-EBDF7D1926AB}.Release|x86.ActiveCfg = Release|x86
-		{CB397BDE-6676-459A-88D0-EBDF7D1926AB}.Release|x86.Build.0 = Release|x86
 		{4BA1F66E-B9FE-4DCE-846F-FA7C273030E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4BA1F66E-B9FE-4DCE-846F-FA7C273030E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4BA1F66E-B9FE-4DCE-846F-FA7C273030E4}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU

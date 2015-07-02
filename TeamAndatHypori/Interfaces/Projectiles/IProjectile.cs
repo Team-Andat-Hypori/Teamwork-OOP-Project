@@ -3,10 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TeamAndatHypori.Enums;
 
 namespace TeamAndatHypori.Interfaces.Projectiles
 {
-    class IProjectile
+    public interface IProjectile
     {
+        int Speed { get;}
+        Direction Direction { get; }
+        int Damage { get; }
     }
 }

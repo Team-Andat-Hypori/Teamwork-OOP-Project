@@ -1,4 +1,5 @@
-﻿using TeamAndatHypori.Objects.Items.Consumables;
+﻿using System;
+using TeamAndatHypori.Objects.Items.Consumables;
 
 namespace TeamAndatHypori.Objects.Characters.PlayableCharacters
 {
@@ -14,8 +15,12 @@ namespace TeamAndatHypori.Objects.Characters.PlayableCharacters
     using TeamAndatHypori.Objects.Items;
     using TeamAndatHypori.Objects.Items.Equipment;
 
+    public delegate void OnDeathEventHandler(object sender, EventArgs args);
+
     public abstract class Player : Character
     {
+        public event OnDeathEventHandler OnDeath;
+        private int maxHealth;
         private int inventoryIsFullTimeout;
 
         protected Player()
@@ -64,7 +69,16 @@ namespace TeamAndatHypori.Objects.Characters.PlayableCharacters
             }
         }
 
-        public int MaxHealth { get; protected set; }
+        public int MaxHealth
+        {
+            get
+            {
+                int healthBonus = this.PlayerEquipment.Sum(item => item.Value.HealthPointsBuff);
+                healthBonus += this.ActivePotions.Sum(potion => potion.HealthPointsBuff);
+                return this.maxHealth + healthBonus;
+            }
+            protected set { this.maxHealth = value; }
+        }
 
         public int Level { get; protected set; }
 
@@ -84,6 +98,13 @@ namespace TeamAndatHypori.Objects.Characters.PlayableCharacters
 
         public override void Update()
         {
+            if (this.Health <= 0)
+            {
+                if (this.OnDeath != null)
+                {
+                    this.OnDeath(this,new EventArgs());
+                }
+            }
             this.Position = new Vector2(
                 MathHelper.Clamp(this.Position.X, -Config.OffsetX, Config.ScreenWidth - Config.OffsetX - this.Width),
                 MathHelper.Clamp(this.Position.Y, 140f, Config.ScreenHeight - Config.OffsetY - this.Height - 135));
@@ -194,6 +215,7 @@ namespace TeamAndatHypori.Objects.Characters.PlayableCharacters
                 if (this.ActivePotions[i].Duration == 0)
                 {
                     this.ActivePotions.RemoveAt(i);
+                    i--;
                     continue;
                 }
                 this.ActivePotions[i].Duration--;

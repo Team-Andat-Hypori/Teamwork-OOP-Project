@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{4BA1F66E-B9FE-4DCE-846F-FA7C273030E4}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>TeamAndatHypori</RootNamespace>
     <AssemblyName>TeamAndatHypori</AssemblyName>
@@ -45,6 +45,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -57,14 +58,15 @@
     <Compile Include="CoreLogic\Engine.cs" />
     <Compile Include="Enums\Direction.cs" />
     <Compile Include="Enums\EquipmentSlot.cs" />
+    <Compile Include="Enums\GameState.cs" />
     <Compile Include="Enums\ItemType.cs" />
     <Compile Include="Enums\Name.cs" />
     <Compile Include="Enums\State.cs" />
+    <Compile Include="Exceptions\ResourceException.cs" />
     <Compile Include="GUI\Gui.cs" />
     <Compile Include="Interfaces\Characters\ICharacter.cs" />
     <Compile Include="Interfaces\Characters\IEnemy.cs" />
     <Compile Include="Interfaces\Characters\IProjectileProducable.cs" />
-    <Compile Include="Interfaces\Engine\IEngine.cs" />
     <Compile Include="Interfaces\Items\IConsumable.cs" />
     <Compile Include="Interfaces\Items\IEquipable.cs" />
     <Compile Include="Interfaces\Items\IItem.cs" />
@@ -99,16 +101,15 @@
     <Compile Include="Objects\Projectiles\Fireball.cs" />
     <Compile Include="Objects\Projectiles\Firebolt.cs" />
     <Compile Include="Objects\Projectiles\Projectile.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="GameMain.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Struct\ScreenSize.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Exceptions\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="Resources\Images\Enemies\OrcArcher\OrcArcherLeftAttack1.png" />
     <Content Include="Resources\Images\Enemies\OrcArcher\OrcArcherLeftAttack2.png" />

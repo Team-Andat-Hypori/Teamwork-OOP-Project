@@ -4,6 +4,5 @@
 
     public abstract class Potion : Item, IConsumable
     {
-        public int Duration { get; set; }
     }
 }

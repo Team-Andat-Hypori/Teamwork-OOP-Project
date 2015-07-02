@@ -9,11 +9,9 @@ namespace TeamAndatHypori.Objects.Items.Consumables
 {
     public class HealingPotion : Potion
     {
-        public override void Update()
+        public HealingPotion()
         {
-            
+            this.HealthPointsBuff = 25;
         }
-
-  
     }
 }

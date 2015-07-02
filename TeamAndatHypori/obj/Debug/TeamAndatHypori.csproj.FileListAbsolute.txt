@@ -7,3 +7,12 @@ E:\Soft Uni\Teamwork\TeamAndat-HyporiProject\TeamAndatHypori\bin\Debug\MonoGame.
 E:\Soft Uni\Teamwork\TeamAndat-HyporiProject\TeamAndatHypori\obj\Debug\TeamAndatHypori.csprojResolveAssemblyReference.cache
 E:\Soft Uni\Teamwork\TeamAndat-HyporiProject\TeamAndatHypori\obj\Debug\TeamAndatHypori.exe
 E:\Soft Uni\Teamwork\TeamAndat-HyporiProject\TeamAndatHypori\obj\Debug\TeamAndatHypori.pdb
+C:\Users\ZENBOOK\Desktop\New folder (4)\TeamAndatHypori\bin\Debug\TeamAndatHypori.exe.config
+C:\Users\ZENBOOK\Desktop\New folder (4)\TeamAndatHypori\obj\Debug\TeamAndatHypori.exe
+C:\Users\ZENBOOK\Desktop\New folder (4)\TeamAndatHypori\obj\Debug\TeamAndatHypori.pdb
+C:\Users\ZENBOOK\Desktop\New folder (4)\TeamAndatHypori\bin\Debug\TeamAndatHypori.exe
+C:\Users\ZENBOOK\Desktop\New folder (4)\TeamAndatHypori\bin\Debug\TeamAndatHypori.pdb
+C:\Users\ZENBOOK\Desktop\New folder (4)\TeamAndatHypori\bin\Debug\MonoGame.Framework.dll
+C:\Users\ZENBOOK\Desktop\New folder (4)\TeamAndatHypori\bin\Debug\OpenTK.dll
+C:\Users\ZENBOOK\Desktop\New folder (4)\TeamAndatHypori\bin\Debug\MonoGame.Framework.xml
+C:\Users\ZENBOOK\Desktop\New folder (4)\TeamAndatHypori\obj\Debug\TeamAndatHypori.csprojResolveAssemblyReference.cache

@@ -11,7 +11,8 @@ namespace TeamAndatHypori.Objects.Items.Consumables
     {
         public override void Update()
         {
-            
+            this.Duration = 2000;
+            this.DefensePointsBuff = 10;
         }
 
 

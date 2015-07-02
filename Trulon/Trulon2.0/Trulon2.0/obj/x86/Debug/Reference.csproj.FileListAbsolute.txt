@@ -129,3 +129,5 @@ E:\Soft Uni\Teamwork\TeamAndat-HyporiProject\Trulon\Trulon2.0\Trulon2.0\obj\x86\
 E:\Soft Uni\Teamwork\TeamAndat-HyporiProject\Trulon\Trulon2.0\Trulon2.0\obj\x86\Debug\Trulon2.0.pdb
 C:\Soft Uni\Teamwork\TeamAndat-HyporiProject\Trulon\Trulon2.0\Trulon2.0\obj\x86\Debug\Trulon2.0.exe
 C:\Soft Uni\Teamwork\TeamAndat-HyporiProject\Trulon\Trulon2.0\Trulon2.0\obj\x86\Debug\Trulon2.0.pdb
+C:\Users\ZENBOOK\Desktop\New folder (4)\Trulon\Trulon2.0\Trulon2.0\obj\x86\Debug\Trulon2.0.exe
+C:\Users\ZENBOOK\Desktop\New folder (4)\Trulon\Trulon2.0\Trulon2.0\obj\x86\Debug\Trulon2.0.pdb

@@ -9,10 +9,10 @@ namespace TeamAndatHypori.Objects.Items.Consumables
 {
     public class DamagePotion : Potion
     {
-        public override void Update()
+        public DamagePotion()
         {
-           
+            this.Duration = 3000;
+            this.AttackPointsBuff = 30;
         }
- 
     }
 }

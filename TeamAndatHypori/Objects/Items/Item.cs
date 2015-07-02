@@ -11,5 +11,7 @@
         public int AttackPointsBuff { get; set; }
 
         public int HealthPointsBuff { get; set; }
+
+        public int Duration { get; set; }
     }
 }

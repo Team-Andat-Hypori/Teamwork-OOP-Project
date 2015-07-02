@@ -46,19 +46,35 @@
 
         public override void RespondToAttack(int damage)
         {
-            this.Health -= damage - this.Defense;
+            this.Health -= (damage - this.Defense) > 0 ? (damage - this.Defense) : 0;
         }
 
         public Projectile ProduceProjectile()
         {
-            Projectile attack = new Firebolt((int)this.Position.X, (int)(this.Position.Y + (this.Height / 2.0)), this.Direction, this.AttackDamage);
-            return attack;
+            if (this.Direction == Direction.Right)
+            {
+                Projectile attack = new Firebolt((int)this.Position.X + this.Width + Config.OffsetX, (int)(this.Position.Y + this.Height), this.Direction, this.AttackDamage);
+                return attack;
+            }
+            else
+            {
+                Projectile attack = new Firebolt((int)this.Position.X, (int)(this.Position.Y + this.Height), this.Direction, this.AttackDamage);
+                return attack;
+            }
         }
 
         public virtual Projectile SpecialAttack()
         {
-            Projectile attack = new Fireball((int)this.Position.X, (int)(this.Position.Y + (this.Height / 2.0)), this.Direction, this.AttackDamage * 2);
-            return attack;
+            if (this.Direction == Direction.Right)
+            {
+                Projectile attack = new Fireball((int)this.Position.X + this.Width + Config.OffsetX, (int)(this.Position.Y + this.Height), this.Direction, this.AttackDamage*2);
+                return attack;
+            }
+            else
+            {
+                Projectile attack = new Fireball((int)this.Position.X, (int)(this.Position.Y + this.Height), this.Direction, this.AttackDamage*2);
+                return attack;
+            }
         }
     }
 }

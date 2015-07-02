@@ -14,7 +14,7 @@
         private const Name DefaultName = Name.OrcArcher;
         private const int DefaultAttackPoints = 25;
         private const int DefaultDefensePoints = 10;
-        private const int DefaultSpeedPoints = 5;
+        private const int DefaultSpeedPoints = 2;
         private const int DefaultHealthPoints = 60;
         private const int DefaultAttackRadius = 1000;
         private const int DefaultLevel = 2;

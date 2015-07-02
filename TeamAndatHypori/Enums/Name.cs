@@ -8,7 +8,7 @@
         Sword,
         Daggers,
         Orb,
-        Vest,
+        Armor,
         DamagePotion,
         DefensePotion,
         HealthPotion,

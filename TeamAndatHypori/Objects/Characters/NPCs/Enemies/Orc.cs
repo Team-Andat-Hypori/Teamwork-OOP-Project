@@ -18,7 +18,7 @@ namespace TeamAndatHypori.Objects.Characters.NPCs.Enemies
         private const Name DefaultName = Name.Orc;
         private const int DefaultAttackPoints = 30;
         private const int DefaultDefensePoints = 15;
-        private const int DefaultSpeedPoints = 5;
+        private const int DefaultSpeedPoints = 3;
         private const int DefaultHealthPoints = 100;
         private const int DefaultAttackRadius = 40;
         private const int DefaultLevel = 2;
@@ -42,5 +42,6 @@ namespace TeamAndatHypori.Objects.Characters.NPCs.Enemies
             this.AttackRadius = DefaultAttackRadius;
             this.AttackBounds = new BoundingBox(new Vector3(this.Position.X + this.Width, this.Position.Y, 0), new Vector3(this.Position.X + +this.AttackRadius + this.Width, this.Position.Y + this.Height, 0));
         }
+
     }
 }

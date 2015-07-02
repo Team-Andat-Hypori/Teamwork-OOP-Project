@@ -11,7 +11,7 @@
         private const Name DefaultName = Name.OrcLeader;
         private const int DefaultAttackPoints = 50;
         private const int DefaultDefensePoints = 20;
-        private const int DefaultSpeedPoints = 5;
+        private const int DefaultSpeedPoints = 3;
         private const int DefaultHealthPoints = 200;
         private const int DefaultAttackRadius = 60;
         private const int DefaultLevel = 2;

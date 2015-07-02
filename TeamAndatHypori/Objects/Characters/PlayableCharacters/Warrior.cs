@@ -22,8 +22,8 @@
         private const int DefaultAttackRadius = 60;
         private const int DefaultLevel = 1;
         private const int DefaultExperience = 0;
-        private const int DefaultWidth = 64;
-        private const int DefaultHeight = 96;
+        private const int DefaultWidth = 80;
+        private const int DefaultHeight = 150;
         #endregion
         private static Random rand;
 
@@ -51,7 +51,7 @@
             int blockRoll = rand.Next(0, 100);
             if (blockRoll < 50)
             {
-                this.Health -= damage - this.Defense;
+                this.Health -= (damage - this.Defense)>0?(damage-this.Defense): 0;
             }
         }
 

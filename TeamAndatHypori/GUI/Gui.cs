@@ -10,30 +10,30 @@ namespace TeamAndatHypori.GUI
 {
     public class Gui : Game
     {
-        private const float BarMaxWidth = 175F;
-        private const float HealthAlertLevel = 0.25F;
+        //private const float BarMaxWidth = 175F;
+        //private const float HealthAlertLevel = 0.25F;
 
         private readonly Engine engine;
         private readonly Vector2[] inventoryPositions =
         {
-            new Vector2(10, 580),
-            new Vector2(70, 580),
-            new Vector2(130, 580),
-            new Vector2(190, 580),
-            new Vector2(250, 580)
+            new Vector2(52, 617),
+            new Vector2(108, 617),
+            new Vector2(166, 617),
+            new Vector2(224, 617),
+            new Vector2(278, 617)
         };
 
         private readonly Dictionary<EquipmentSlot, Vector2> equipmentSlotPositions = new Dictionary<EquipmentSlot, Vector2>()
         {
-            { EquipmentSlot.Head, new Vector2(10, 520) },
-            { EquipmentSlot.Hands, new Vector2(70, 520) },
-            { EquipmentSlot.Arms, new Vector2(130, 520) },
-            { EquipmentSlot.Body, new Vector2(190, 520) },
-            { EquipmentSlot.Feet, new Vector2(250, 520) }
+            { EquipmentSlot.Head, new Vector2(52, 561) },
+            { EquipmentSlot.Hands, new Vector2(108, 561) },
+            { EquipmentSlot.Arms, new Vector2(166, 561) },
+            { EquipmentSlot.Body, new Vector2(224, 561) },
+            { EquipmentSlot.Feet, new Vector2(278, 561) }
         };
 
-        private float barCurrentWidth;
-        private Color barColor = Color.White;
+        //private float barCurrentWidth;
+        //private Color barColor = Color.White;
 
         public Gui(Engine engine)
         {
@@ -58,23 +58,24 @@ namespace TeamAndatHypori.GUI
             }
 
             // Labels
-            spriteBatch.DrawString(this.engine.Font, this.engine.Player.Level.ToString(), new Vector2(380, 580), Color.Black);
-            spriteBatch.DrawString(this.engine.Font, this.engine.Player.AttackDamage.ToString(), new Vector2(380, 600), Color.Black);
-            spriteBatch.DrawString(this.engine.Font, this.engine.Player.Defense.ToString(), new Vector2(380, 620), Color.Black);
-            spriteBatch.DrawString(this.engine.Font, this.engine.Player.Speed.ToString(), new Vector2(380, 640), Color.Black);
-            spriteBatch.DrawString(this.engine.Font, this.engine.Player.Experience.ToString(), new Vector2(380, 660), Color.Black);
+            spriteBatch.DrawString(this.engine.Font, this.engine.Player.Health.ToString(), new Vector2(500, 560), Color.Black);
+            spriteBatch.DrawString(this.engine.Font, this.engine.Player.Level.ToString(), new Vector2(500, 575), Color.Black);
+            spriteBatch.DrawString(this.engine.Font, this.engine.Player.AttackDamage.ToString(), new Vector2(500, 590), Color.Black);
+            spriteBatch.DrawString(this.engine.Font, this.engine.Player.Defense.ToString(), new Vector2(500, 605), Color.Black);
+            spriteBatch.DrawString(this.engine.Font, this.engine.Player.Speed.ToString(), new Vector2(500, 620), Color.Black);
+            spriteBatch.DrawString(this.engine.Font, this.engine.Player.Experience.ToString(), new Vector2(500, 635), Color.Black);
 
-            spriteBatch.DrawString(this.engine.Font, "Use: 1", new Vector2(10, 610), Color.LightBlue);
-            spriteBatch.DrawString(this.engine.Font, "Use: 2", new Vector2(70, 610), Color.LightBlue);
-            spriteBatch.DrawString(this.engine.Font, "Use: 3", new Vector2(130, 610), Color.LightBlue);
-            spriteBatch.DrawString(this.engine.Font, "Use: 4", new Vector2(190, 610), Color.LightBlue);
-            spriteBatch.DrawString(this.engine.Font, "Use: 5", new Vector2(250, 610), Color.LightBlue);
+            spriteBatch.DrawString(this.engine.Font, "Use:1", new Vector2(40, 600), Color.LightBlue);
+            spriteBatch.DrawString(this.engine.Font, "Use:2", new Vector2(100, 600), Color.LightBlue);
+            spriteBatch.DrawString(this.engine.Font, "Use:3", new Vector2(160, 600), Color.LightBlue);
+            spriteBatch.DrawString(this.engine.Font, "Use:4", new Vector2(220, 600), Color.LightBlue);
+            spriteBatch.DrawString(this.engine.Font, "Use:5", new Vector2(280, 600), Color.LightBlue);
 
-            spriteBatch.DrawString(this.engine.Font, "Drop:Q", new Vector2(10, 550), Color.LightBlue);
-            spriteBatch.DrawString(this.engine.Font, "Drop:W", new Vector2(70, 550), Color.LightBlue);
-            spriteBatch.DrawString(this.engine.Font, "Drop:E", new Vector2(130, 550), Color.LightBlue);
-            spriteBatch.DrawString(this.engine.Font, "Drop:R", new Vector2(190, 550), Color.LightBlue);
-            spriteBatch.DrawString(this.engine.Font, "Drop:T", new Vector2(250, 550), Color.LightBlue);
+            spriteBatch.DrawString(this.engine.Font, "Drop:Q", new Vector2(40, 545), Color.LightBlue);
+            spriteBatch.DrawString(this.engine.Font, "Drop:W", new Vector2(100, 545), Color.LightBlue);
+            spriteBatch.DrawString(this.engine.Font, "Drop:E", new Vector2(160, 545), Color.LightBlue);
+            spriteBatch.DrawString(this.engine.Font, "Drop:R", new Vector2(220, 545), Color.LightBlue);
+            spriteBatch.DrawString(this.engine.Font, "Drop:T", new Vector2(280, 545), Color.LightBlue);
 
             // Healthbar
             //this.barCurrentWidth = (BarMaxWidth / this.engine.Player.MaxHealth) * this.engine.Player.Health;

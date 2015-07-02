@@ -11,6 +11,7 @@
         private const Name DefaultName = Name.Firebolt;
         private const int DefaultWidth = 60;
         private const int DefaultHeight = 30;
+        private const int DefaultSpeed = 10;
         #endregion
 
         public Firebolt(int x, int y, Direction direction, int damage)
@@ -19,6 +20,7 @@
             this.Name = DefaultName;
             this.Width = DefaultWidth;
             this.Height = DefaultHeight;
+            this.Speed = DefaultSpeed;
         }
     }
 }

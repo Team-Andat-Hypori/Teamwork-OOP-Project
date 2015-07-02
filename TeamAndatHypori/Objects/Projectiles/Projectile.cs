@@ -10,6 +10,7 @@
         
         protected Projectile(int x, int y, Direction direction,int damage)
         {
+            this.Damage = damage;
             this.Position = new Vector2(x,y);
             this.Direction = direction;
             this.Bounds = new BoundingBox(new Vector3(x, y, 0), new Vector3(x + this.Width, y + this.Height, 0));

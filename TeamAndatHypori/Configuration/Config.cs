@@ -13,8 +13,8 @@
 
         // Players base constatnts
         public const int InventorySize = 5;
-        public const int OffsetX = 60;
-        public const int OffsetY = 60;
+        public const int OffsetX = 100;
+        public const int OffsetY = 80;
 
         // Controls
         public static readonly Keys[] UseItemKeys = { Keys.D1, Keys.D2, Keys.D3, Keys.D4, Keys.D5 };

@@ -13,7 +13,6 @@
         {
             this.AnimationFrame = 0;
             this.AnimationDelay = 10;
-            this.IsAlive = true;
             this.State = State.Idle;
         }
 
@@ -28,8 +27,6 @@
         public int AttackRadius { get; protected set; }
 
         public BoundingBox AttackBounds { get; protected set; }
-
-        public bool IsAlive { get; protected set; }
 
         public Direction Direction { get; set; }
 

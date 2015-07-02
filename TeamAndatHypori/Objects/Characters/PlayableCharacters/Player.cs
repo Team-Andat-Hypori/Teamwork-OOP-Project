@@ -86,7 +86,7 @@ namespace TeamAndatHypori.Objects.Characters.PlayableCharacters
         {
             this.Position = new Vector2(
                 MathHelper.Clamp(this.Position.X, -Config.OffsetX, Config.ScreenWidth - Config.OffsetX - this.Width),
-                MathHelper.Clamp(this.Position.Y, (float)(Config.ScreenHeight / 2.0), Config.ScreenHeight - Config.OffsetY - this.Height));
+                MathHelper.Clamp(this.Position.Y, 140f, Config.ScreenHeight - Config.OffsetY - this.Height - 135));
             this.Bounds = new BoundingBox(new Vector3(this.Position.X + Config.OffsetX, this.Position.Y + Config.OffsetY, 0), new Vector3(this.Position.X + Config.OffsetX + this.Width, this.Position.Y + Config.OffsetY + this.Height, 0));
 
             this.TimeOutPotions();
@@ -98,12 +98,9 @@ namespace TeamAndatHypori.Objects.Characters.PlayableCharacters
             return enemies.Where(enemy => this.AttackBounds.Intersects(enemy.Bounds)).ToList();
         }
 
-        public virtual void Attack(IList<Enemy> enemiesInRange)
+        public virtual void Attack(Enemy enemy)
         {
-            foreach (var enemy in enemiesInRange)
-            {
-                enemy.RespondToAttack(this.AttackDamage);
-            }
+            enemy.RespondToAttack(this.AttackDamage);
         }
 
         public void AddExperience(Enemy enemy)

@@ -107,7 +107,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="CoreLogic\Factories\" />
     <Folder Include="Exceptions\" />
   </ItemGroup>
   <ItemGroup>

@@ -132,7 +132,7 @@ namespace TeamAndatHypori.CoreLogic
             this.graphics.ApplyChanges();
             this.IsMouseVisible = false;
 
-            this.Player = new Warrior(0, 0);
+            this.Player = new Wizard(0, 0);
             this.map = new Map();
 
             this.gui = new Gui(this);
@@ -155,8 +155,8 @@ namespace TeamAndatHypori.CoreLogic
             // Load Enemies
             this.Enemies = new List<Enemy>
             {
-                new Orc(1000, 300),
-                new Orc(1000, 400),
+                new OrcArcher(1000, 300),
+                new OrcArcher(1000, 400),
                 new OrcArcher(1000, 100),
                 new OrcArcher(1000, 500),
             };
@@ -584,12 +584,11 @@ namespace TeamAndatHypori.CoreLogic
             this.EnemiesAttack();
             this.UpdateEnemies();
 
-            this.LoadProjectileImages();
             this.FlyProjectiles();
             this.CheckForProjectileHits();
 
             this.UpdateExplosions();
-   
+
             if (this.Enemies.Count == 0)
             {
                 // Implement next wave
@@ -627,8 +626,8 @@ namespace TeamAndatHypori.CoreLogic
             }
             this.AnimateEnemies();
             this.AnimateExplosions();
-            
 
+            this.DeleteDeadObjects();
         }
 
         protected override void Draw(GameTime gameTime)
@@ -647,25 +646,53 @@ namespace TeamAndatHypori.CoreLogic
             {
                 this.SpriteBatch.Draw(projectile.Image, projectile.Position, Color.White);
             }
+            foreach (var explosion in this.Explosions)
+            {
+                this.SpriteBatch.Draw(explosion.Image, explosion.Position, Color.White);
+            }
             this.gui.Draw(this.SpriteBatch);
 
             this.SpriteBatch.End();
         }
 
-        private void LoadProjectileImages()
+        private void DeleteDeadObjects()
         {
-            foreach (var projectile in this.Projectiles)
+            for (int i = 0; i < this.Projectiles.Count; i++)
+            {
+                if (Projectiles[i].IsAlive == false)
+                {
+                    Projectiles.RemoveAt(i);
+                    i--;
+                }
+            }
+            for (int i = 0; i < this.Explosions.Count(); i++)
+            {
+                if (Explosions[i].IsAlive == false)
+                {
+                    Explosions.RemoveAt(i);
+                    i--;
+                }
+            }
+            for (var i = 0; i < this.Enemies.Count; i++)
+            {
+                if (!this.Enemies[i].IsAlive)
+                {
+                    this.Player.AddExperience(this.Enemies[i]);
+                    this.Player.AddToInventory(this.LootEnemy(ItemType.Equipment));
+                    this.Player.AddToInventory(this.LootEnemy(ItemType.Potion));
+                    this.Enemies.RemoveAt(i);
+                    i--;
+                }
+            }
+        }
+
+        private void LoadProjectileImage(Projectile projectile)
+        {
+            if (projectile.Image == null)
             {
                 if (projectile is Dagger)
                 {
-                    if (projectile.Direction == Direction.Left)
-                    {
-                        projectile.LoadImage(this.DaggerLeft);
-                    }
-                    else
-                    {
-                        projectile.LoadImage(this.DaggerRight);
-                    }
+                    projectile.LoadImage(projectile.Direction == Direction.Left ? this.DaggerLeft : this.DaggerRight);
                 }
                 else if (projectile is Arrow)
                 {
@@ -689,10 +716,12 @@ namespace TeamAndatHypori.CoreLogic
                 if (projectile.Direction == Direction.Left)
                 {
                     projectile.Position = new Vector2(projectile.Position.X - projectile.Speed, projectile.Position.Y);
+                    projectile.Bounds = new BoundingBox(new Vector3(projectile.Position.X, projectile.Position.Y, 0), new Vector3(projectile.Position.X + projectile.Width, projectile.Position.Y + projectile.Height, 0));
                 }
                 else if (projectile.Direction == Direction.Right)
                 {
                     projectile.Position = new Vector2(projectile.Position.X + projectile.Speed, projectile.Position.Y);
+                    projectile.Bounds = new BoundingBox(new Vector3(projectile.Position.X, projectile.Position.Y, 0), new Vector3(projectile.Position.X + projectile.Width, projectile.Position.Y + projectile.Height, 0));
                 }
             }
         }
@@ -703,27 +732,39 @@ namespace TeamAndatHypori.CoreLogic
             {
                 if (this.Player.Intersects(projectile.Bounds))
                 {
-                    if (projectile is Fireball == false)
+                    if (projectile is Arrow)
                     {
                         this.Player.RespondToAttack(projectile.Damage);
-                        this.Projectiles.Remove(projectile);
+                        projectile.IsAlive = false;
                         continue;
                     }
                 }
                 foreach (var enemy in this.Enemies)
                 {
-                    if (projectile is Fireball)
-                    {
-                        var explosion = new Explosion((int)projectile.Position.X, (int)projectile.Position.Y - projectile.Height, projectile.Damage);
-                        this.Projectiles.Remove(projectile);
-                        this.Explosions.Add(explosion);
-                    }
                     if (enemy.Intersects(projectile.Bounds))
                     {
-                        enemy.RespondToAttack(projectile.Damage);
-                        this.Projectiles.Remove(projectile);
+                        if (projectile is Fireball)
+                        {
+                            var explosion = new Explosion((int)projectile.Position.X + projectile.Width / 2, (int)projectile.Position.Y - projectile.Height, projectile.Damage);
+                            projectile.IsAlive = false;
+                            this.Explosions.Add(explosion);
+                            this.LoadExplosionImage(explosion);
+                        }
+                        else if (enemy.Intersects(projectile.Bounds) && projectile is Arrow == false)
+                        {
+                            enemy.RespondToAttack(projectile.Damage);
+                            projectile.IsAlive = false;
+                        }
                     }
                 }
+            }
+        }
+
+        private void LoadExplosionImage(Explosion explosion)
+        {
+            if (explosion.Image == null)
+            {
+                explosion.LoadImage(this.Explosion[0]);
             }
         }
 
@@ -731,7 +772,7 @@ namespace TeamAndatHypori.CoreLogic
         {
             foreach (var explosion in this.Explosions)
             {
-                if (explosion.AnimationFrame == 1)
+                if (explosion.AnimationFrame == 1 && explosion.AnimationDelay == 0)
                 {
                     foreach (var enemy in this.Enemies)
                     {
@@ -746,38 +787,44 @@ namespace TeamAndatHypori.CoreLogic
 
         private void PlayerAttack()
         {
-            // Player Attacking
-            var enemiesInRange = this.Player.GetEnemiesInRange(this.Enemies);
-            if (enemiesInRange.Count > 0)
+            if (this.Player.State == State.Special && this.Player.AnimationFrame == 2 && this.Player.AnimationDelay == 0)
             {
-                if (this.Player.State == State.Special && this.Player.AnimationFrame == 2)
+                if (this.Player is Warrior)
                 {
-                    if (this.Player is Warrior)
+                    var enemiesInRange = this.Player.GetEnemiesInRange(this.Enemies);
+                    if (enemiesInRange.Count > 0)
                     {
                         (this.Player as Warrior).SpecialAttack(enemiesInRange);
                     }
-                    else if (this.Player is Wizard)
+                }
+                else if (this.Player is Wizard)
+                {
+                    Projectile projectile = (this.Player as Wizard).SpecialAttack();
+                    this.Projectiles.Add(projectile);
+                    this.LoadProjectileImage(projectile);
+                }
+            }
+            else if (this.Player.State == State.Attacking && this.Player.AnimationFrame == 2 && this.Player.AnimationDelay == 0)
+            {
+                if (this.Player is Warrior)
+                {
+                    var enemy = this.Player.GetEnemiesInRange(this.Enemies).FirstOrDefault();
+                    if (enemy != null)
                     {
-                        Projectile projectile = (this.Player as Wizard).SpecialAttack();
-                        this.Projectiles.Add(projectile);
+                        this.Player.Attack(enemy);
                     }
                 }
-                else if (this.Player.State == State.Attacking && this.Player.AnimationFrame == 2)
+                else if (this.Player is Rogue)
                 {
-                    if (this.Player is Warrior)
-                    {
-                        this.Player.Attack(enemiesInRange);
-                    }
-                    else if (this.Player is Rogue)
-                    {
-                        Projectile projectile = (this.Player as Rogue).ProduceProjectile();
-                        this.Projectiles.Add(projectile);
-                    }
-                    else if (this.Player is Wizard)
-                    {
-                        Projectile projectile = (this.Player as Wizard).ProduceProjectile();
-                        this.Projectiles.Add(projectile);
-                    }
+                    Projectile projectile = (this.Player as Rogue).ProduceProjectile();
+                    this.Projectiles.Add(projectile);
+                    this.LoadProjectileImage(projectile);
+                }
+                else if (this.Player is Wizard)
+                {
+                    Projectile projectile = (this.Player as Wizard).ProduceProjectile();
+                    this.Projectiles.Add(projectile);
+                    this.LoadProjectileImage(projectile);
                 }
             }
         }
@@ -786,12 +833,13 @@ namespace TeamAndatHypori.CoreLogic
         {
             foreach (var enemy in this.Enemies)
             {
-                if (enemy.State == State.Attacking && enemy.AnimationFrame == 3)
+                if (enemy.State == State.Attacking && enemy.AnimationFrame == 3 && enemy.AnimationDelay == 0)
                 {
                     if (enemy is OrcArcher)
                     {
                         Projectile projectile = (enemy as OrcArcher).ProduceProjectile();
                         this.Projectiles.Add(projectile);
+                        this.LoadProjectileImage(projectile);
                     }
                     else
                     {
@@ -810,9 +858,11 @@ namespace TeamAndatHypori.CoreLogic
                     explosion.Image = this.Explosion[explosion.AnimationFrame++];
                     if (explosion.AnimationFrame == this.Explosion.Length)
                     {
-                        this.Explosions.Remove(explosion);
+                        explosion.IsAlive = false;
                     }
+                    explosion.AnimationDelay = 10;
                 }
+                explosion.AnimationDelay--;
             }
         }
 
@@ -854,8 +904,8 @@ namespace TeamAndatHypori.CoreLogic
                             {
                                 case Direction.Down:
                                 case Direction.Right:
-                                    enemy.Image = this.OrcRightAttack[enemy.AnimationFrame++];
-                                    if (enemy.AnimationFrame == this.OrcRightAttack.Length)
+                                    enemy.Image = this.OrcMoveRight[enemy.AnimationFrame++];
+                                    if (enemy.AnimationFrame == this.OrcMoveRight.Length)
                                     {
                                         enemy.State = State.Idle;
                                         enemy.AnimationFrame = 0;
@@ -863,8 +913,8 @@ namespace TeamAndatHypori.CoreLogic
                                     break;
                                 case Direction.Up:
                                 case Direction.Left:
-                                    enemy.Image = this.OrcLeftAttack[enemy.AnimationFrame++];
-                                    if (enemy.AnimationFrame == this.OrcLeftAttack.Length)
+                                    enemy.Image = this.OrcMoveLeft[enemy.AnimationFrame++];
+                                    if (enemy.AnimationFrame == this.OrcMoveLeft.Length)
                                     {
                                         enemy.State = State.Idle;
                                         enemy.AnimationFrame = 0;
@@ -883,6 +933,7 @@ namespace TeamAndatHypori.CoreLogic
                                     {
                                         enemy.State = State.Idle;
                                         enemy.AnimationFrame = 0;
+                                        enemy.IsAlive = false;
                                     }
                                     break;
                                 case Direction.Up:
@@ -892,6 +943,7 @@ namespace TeamAndatHypori.CoreLogic
                                     {
                                         enemy.State = State.Idle;
                                         enemy.AnimationFrame = 0;
+                                        enemy.IsAlive = false;
                                     }
                                     break;
                             }
@@ -929,8 +981,8 @@ namespace TeamAndatHypori.CoreLogic
                             {
                                 case Direction.Down:
                                 case Direction.Right:
-                                    enemy.Image = this.OrcArcherRightAttack[enemy.AnimationFrame++];
-                                    if (enemy.AnimationFrame == this.OrcArcherRightAttack.Length)
+                                    enemy.Image = this.OrcArcherMoveRight[enemy.AnimationFrame++];
+                                    if (enemy.AnimationFrame == this.OrcArcherMoveRight.Length)
                                     {
                                         enemy.State = State.Idle;
                                         enemy.AnimationFrame = 0;
@@ -938,8 +990,8 @@ namespace TeamAndatHypori.CoreLogic
                                     break;
                                 case Direction.Up:
                                 case Direction.Left:
-                                    enemy.Image = this.OrcArcherLeftAttack[enemy.AnimationFrame++];
-                                    if (enemy.AnimationFrame == this.OrcArcherLeftAttack.Length)
+                                    enemy.Image = this.OrcArcherMoveLeft[enemy.AnimationFrame++];
+                                    if (enemy.AnimationFrame == this.OrcArcherMoveLeft.Length)
                                     {
                                         enemy.State = State.Idle;
                                         enemy.AnimationFrame = 0;
@@ -958,6 +1010,7 @@ namespace TeamAndatHypori.CoreLogic
                                     {
                                         enemy.State = State.Idle;
                                         enemy.AnimationFrame = 0;
+                                        enemy.IsAlive = false;
                                     }
                                     break;
                                 case Direction.Up:
@@ -967,6 +1020,7 @@ namespace TeamAndatHypori.CoreLogic
                                     {
                                         enemy.State = State.Idle;
                                         enemy.AnimationFrame = 0;
+                                        enemy.IsAlive = false;
                                     }
                                     break;
                             }
@@ -1004,8 +1058,8 @@ namespace TeamAndatHypori.CoreLogic
                             {
                                 case Direction.Down:
                                 case Direction.Right:
-                                    enemy.Image = this.OrcLordRightAttack[enemy.AnimationFrame++];
-                                    if (enemy.AnimationFrame == this.OrcLordRightAttack.Length)
+                                    enemy.Image = this.OrcLordMoveRight[enemy.AnimationFrame++];
+                                    if (enemy.AnimationFrame == this.OrcLordMoveRight.Length)
                                     {
                                         enemy.State = State.Idle;
                                         enemy.AnimationFrame = 0;
@@ -1013,8 +1067,8 @@ namespace TeamAndatHypori.CoreLogic
                                     break;
                                 case Direction.Up:
                                 case Direction.Left:
-                                    enemy.Image = this.OrcLordLeftAttack[enemy.AnimationFrame++];
-                                    if (enemy.AnimationFrame == this.OrcLordLeftAttack.Length)
+                                    enemy.Image = this.OrcLordMoveLeft[enemy.AnimationFrame++];
+                                    if (enemy.AnimationFrame == this.OrcLordMoveLeft.Length)
                                     {
                                         enemy.State = State.Idle;
                                         enemy.AnimationFrame = 0;
@@ -1033,6 +1087,7 @@ namespace TeamAndatHypori.CoreLogic
                                     {
                                         enemy.State = State.Idle;
                                         enemy.AnimationFrame = 0;
+                                        enemy.IsAlive = false;
                                     }
                                     break;
                                 case Direction.Up:
@@ -1042,6 +1097,7 @@ namespace TeamAndatHypori.CoreLogic
                                     {
                                         enemy.State = State.Idle;
                                         enemy.AnimationFrame = 0;
+                                        enemy.IsAlive = false;
                                     }
                                     break;
                             }
@@ -1079,6 +1135,7 @@ namespace TeamAndatHypori.CoreLogic
                             }
                             break;
                     }
+                    this.Player.AnimationDelay = 40;
                 }
                 else if (this.Player.State == State.Attacking)
                 {
@@ -1102,6 +1159,7 @@ namespace TeamAndatHypori.CoreLogic
                             }
                             break;
                     }
+                    this.Player.AnimationDelay = 10;
                 }
                 else if (this.Player.State == State.Moving)
                 {
@@ -1125,9 +1183,8 @@ namespace TeamAndatHypori.CoreLogic
                             }
                             break;
                     }
+                    this.Player.AnimationDelay = 10;
                 }
-
-                this.Player.AnimationDelay = 10;
             }
 
             this.Player.AnimationDelay--;
@@ -1141,6 +1198,7 @@ namespace TeamAndatHypori.CoreLogic
                 {
                     this.Player.State = State.Special;
                     this.Player.AnimationFrame = 0;
+                    this.Player.AnimationDelay = 40;
                     this.Kills[Rand.Next(0, this.Kills.Length)].Play();
                 }
                 else if (this.CurrentKeyboardState.IsKeyDown(Keys.Space))
@@ -1205,23 +1263,9 @@ namespace TeamAndatHypori.CoreLogic
         private void UpdateEnemies()
         {
             // Update enemies
-            if (this.Enemies.Count > 0)
+            foreach (var enemy in this.Enemies)
             {
-                for (var i = 0; i < this.Enemies.Count; i++)
-                {
-                    if (!this.Enemies[i].IsAlive)
-                    {
-                        this.Player.AddExperience(this.Enemies[i]);
-                        this.Player.AddToInventory(this.LootEnemy(ItemType.Equipment));
-                        this.Player.AddToInventory(this.LootEnemy(ItemType.Potion));
-                        this.Enemies.RemoveAt(i);
-                        i--;
-                    }
-                    else
-                    {
-                        this.Enemies[i].Update();
-                    }
-                }
+                enemy.Update();
             }
         }
 
@@ -1229,42 +1273,49 @@ namespace TeamAndatHypori.CoreLogic
         {
             foreach (var enemy in this.Enemies)
             {
+                
                 if (enemy.State == State.Idle)
                 {
+                    if (enemy.Health <= 0)
+                    {
+                        enemy.State = State.Dying;
+                        enemy.AnimationFrame = 0;
+                        continue;
+                    }
                     if (this.Player.Intersects(enemy.AttackBounds))
                     {
-                        int chanceToAttack = Rand.Next(0, 5);
+                        int chanceToAttack = Rand.Next(0, 10);
                         if (chanceToAttack == 0)
                         {
-                            if (this.Player.Position.X <= enemy.Position.X)
-                            {
-                                enemy.Direction = Direction.Left;
-                            }
-                            else
-                            {
-                                enemy.Direction = Direction.Right;
-                            }
+                            enemy.Direction = this.Player.Position.X <= enemy.Position.X ? Direction.Left : Direction.Right;
                             enemy.State = State.Attacking;
-                            return;
+                            continue;
                         }
                     }
-                    enemy.State = State.Moving;
-                    // 0 = Left, 1 = Up, 2 = Right, 3 = Down
-                    int direction = Rand.Next(0, 4);
-                    switch (direction)
+                    int chance = Rand.Next(0, 100);
+                    if (chance < 50)
                     {
-                        case 0: enemy.Direction = Direction.Left;
-                            break;
-                        case 1: enemy.Direction = Direction.Up;
-                            break;
-                        case 2: enemy.Direction = Direction.Right;
-                            break;
-                        case 3: enemy.Direction = Direction.Down;
-                            break;
+                        enemy.State = State.Idle;
+                        continue;
                     }
-
+                    else
+                    {
+                        enemy.State = State.Moving;
+                        // 0 = Left, 1 = Up, 2 = Right, 3 = Down
+                        int direction = Rand.Next(0, 4);
+                        switch (direction)
+                        {
+                            case 0: enemy.Direction = Direction.Left;
+                                break;
+                            case 1: enemy.Direction = Direction.Up;
+                                break;
+                            case 2: enemy.Direction = Direction.Right;
+                                break;
+                            case 3: enemy.Direction = Direction.Down;
+                                break;
+                        }
+                    }
                 }
-
             }
         }
 
@@ -1291,7 +1342,7 @@ namespace TeamAndatHypori.CoreLogic
 
         private Item LootEnemy(ItemType type)
         {
-            int chance = Rand.Next(0, 5);
+            int chance = Rand.Next(0,1);
             if (chance == 0)
             {
                 return type == ItemType.Potion ? AllPotions[Rand.Next(0, this.AllPotions.Length)] : AllEquipments[Rand.Next(0, this.AllEquipments.Length)];

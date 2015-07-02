@@ -22,8 +22,8 @@
         private const int DefaultAttackRadius = 60;
         private const int DefaultLevel = 1;
         private const int DefaultExperience = 0;
-        private const int DefaultWidth = 64;
-        private const int DefaultHeight = 96;
+        private const int DefaultWidth = 80;
+        private const int DefaultHeight = 150;
         #endregion
 
         public Rogue(int x, int y)
@@ -46,18 +46,22 @@
 
         public override void RespondToAttack(int damage)
         {
-            this.Health -= damage - this.Defense;
-        }
-
-        public override void Attack(IList<Enemy> enemiesInRange)
-        {
-
+            this.Health -= (damage - this.Defense) > 0 ? (damage - this.Defense) : 0;
         }
 
         public Projectile ProduceProjectile()
         {
-            Projectile attack = new Dagger((int)this.Position.X, (int)(this.Position.Y + (this.Height / 2.0)), this.Direction, this.AttackDamage);
-            return attack;
+            if (this.Direction == Direction.Right)
+            {
+                Projectile attack = new Dagger((int)this.Position.X + this.Width + Config.OffsetX, (int)(this.Position.Y + this.Height), this.Direction, this.AttackDamage);
+                return attack;
+            }
+            else
+            {
+                Projectile attack = new Dagger((int)this.Position.X, (int)(this.Position.Y + this.Height), this.Direction, this.AttackDamage);
+                return attack;
+            }
+
         }
     }
 }

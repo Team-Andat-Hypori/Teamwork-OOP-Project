@@ -13,13 +13,6 @@
             "Sounds/Kill6.wav"
         };
 
-        public static readonly string[] LevelUpSounds =
-        {
-            "Sounds/LevelUp1.wav",
-            "Sounds/LevelUp2.wav",
-            "Sounds/LevelUp3.wav",
-        };
-
         public static readonly string WarriorSelect = "Sounds/PickWarrior.wav";
         public static readonly string RogueSelect = "Sounds/PickRogue.wav";
         public static readonly string WizardSelect = "Sounds/PickWizard.wav";

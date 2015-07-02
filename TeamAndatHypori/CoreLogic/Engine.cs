@@ -41,7 +41,6 @@ namespace TeamAndatHypori.CoreLogic
 
         #region Sounds
         private SoundEffect[] Kills;
-        private SoundEffect[] LevelUp;
 
         private SoundEffect BossPrepare;
         private SoundEffect BossKill;
@@ -206,13 +205,6 @@ namespace TeamAndatHypori.CoreLogic
                 Content.Load<SoundEffect>(Assets.KillSounds[3]),
                 Content.Load<SoundEffect>(Assets.KillSounds[4]),
                 Content.Load<SoundEffect>(Assets.KillSounds[5]),
-            };
-
-            this.LevelUp = new[]
-            {
-                Content.Load<SoundEffect>(Assets.LevelUpSounds[0]),
-                Content.Load<SoundEffect>(Assets.LevelUpSounds[1]),
-                Content.Load<SoundEffect>(Assets.LevelUpSounds[2]),
             };
 
             this.PickWarrior = Content.Load<SoundEffect>(Assets.WarriorSelect);
